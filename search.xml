@@ -230,11 +230,11 @@
   <entry>
     <title>杂谈：在云服务器上部署分布式的饥荒联机服务器</title>
     <url>/post/c0fd8110/</url>
-    <content><![CDATA[<h3 id="Preface-2">Preface</h3>
+    <content><![CDATA[<h3 id="Preface">Preface</h3>
 <p>最近和小伙伴游玩联机饥荒的时候，采用了本地服务器配合<a href="https://github.com/fatedier/frp">FRP</a>，将UDP端口10998/10999通过云服务器暴露到公网上，以实现联机。这个场景下，服务器在小伙伴的局域网下，我作为客户端位于另一个局域网下，虽然成功实现了联机，但是延迟很高，无法正常游玩。</p>
 <p>为什么在有云服务器的情况下，不能直接把饥荒服务端部署上去呢？因为阿里云学生机的性能太差了，无法流畅运行同时拥有地上世界和洞穴的游戏世界。</p>
 <p>通过简单研究Windows版的饥荒服务器，我们发现，饥荒服务端的地上世界和洞穴是两个不同的进程，而且在存档配置文件<code>cluster.ini</code>中有一个属性名为<code>master_ip</code>，值默认是<code>127.0.0.1</code>。这好像暗示着，地上世界和洞穴的进程可以进行分布式部署？</p>
-<p>正好我和小伙伴各拥有一台阿里云轻型引用服务器（学生机），说干就干，以下是具体的实现方法。</p>
+<p>正好我和小伙伴各拥有一台阿里云轻型应用服务器（学生机），说干就干，以下是具体的实现方法。</p>
 <p>基本配置：</p>
 <table>
 <thead>
@@ -293,7 +293,7 @@
 <li>在饥荒联机版中创建一个新世界，配置完毕后可以提取存档；Windows下存档路径是<code>C:/Users/&lt;username&gt;/Documents/Klei/DontStarveTogether/</code><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>；</li>
 </ol>
 <ol start="2">
-<li>使用Klei官方提供的<a href="">配置工具</a>，生成并下载存档。</li>
+<li>使用Klei官方提供的<a href="https://accounts.klei.com/account/game/servers?game=DontStarveTogether">配置工具</a>，生成并下载存档。</li>
 </ol>
 <p>假设存档的名字为<code>Cluster_1</code>，使用<code>scp</code><sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>命令或者FTP工具将压缩后的存档上传即可：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">scp ~/Documents/Klei/DontStarveTogether/Cluster_1.zip \</span><br><span class="line">        &lt;username&gt;@&lt;server_ip&gt;:~/.klei/DontStarveTogether/</span><br></pre></td></tr></table></figure>
@@ -371,7 +371,7 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/Steam/steamapps/common/&quot;Don&#x27;t Starve Together Dedicated Server&quot;/bin64/</span><br><span class="line">./dontstarve_dedicated_server_nullrenderer_x64 -console -cluster Cluster_1 -shard Caves</span><br></pre></td></tr></table></figure>
 <h4 id="开动！">开动！</h4>
 <p>完成上述步骤，并看到两个服务端日志中都打印出<code>Sim Pause</code>的字样时，证明搭建成功，此时应该可以在“浏览游戏”中搜索到自己的服务器，可以愉快的玩耍了~</p>
-<h3 id="Reference-2">Reference</h3>
+<h3 id="Reference">Reference</h3>
 <ol>
 <li><a href="https://steamcommunity.com/sharedfiles/filedetails/?id=590565473">Klei官方搭建指南</a></li>
 <li><a href="https://www.ruanyifeng.com/blog/2019/10/tmux.html">Tmux使用教程 - 阮一峰的网络日志</a></li>
