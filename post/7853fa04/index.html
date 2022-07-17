@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;default&quot;]" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>nvim-lsp-loader: 更灵活的language server配置解决方案 | Stephen Zhang's Blog</title><meta name="keywords" content="vim,neovim,geek,lsp"><meta name="author" content="stephen zhang"><meta name="copyright" content="stephen zhang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从json文件配置neovim native language server~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nvim-lsp-loader: 更灵活的language server配置解决方案">
+<meta property="og:url" content="https://blogs.stephen-zhang.cn/post/7853fa04/">
+<meta property="og:site_name" content="Stephen Zhang&#39;s Blog">
+<meta property="og:description" content="从json文件配置neovim native language server~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blogs.stephen-zhang.cn/images/avatar.jpeg">
+<meta property="article:published_time" content="2022-07-11T17:08:05.000Z">
+<meta property="article:modified_time" content="2022-07-17T17:13:35.359Z">
+<meta property="article:author" content="stephen zhang">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="neovim">
+<meta property="article:tag" content="geek">
+<meta property="article:tag" content="lsp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blogs.stephen-zhang.cn/images/avatar.jpeg"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="canonical" href="https://blogs.stephen-zhang.cn/post/7853fa04/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="code-rzFVk1pD5y"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7690d855badf77d19385d41b87879ca0";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: stephen zhang","link":"链接: ","source":"来源: Stephen Zhang's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'nvim-lsp-loader: 更灵活的language server配置解决方案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-18 01:13:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Stephen Zhang's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/avatar.jpeg" onerror="onerror=null;src='/images/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-bookmark"></i><span> 合辑</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/commMobile"><i class="fa-fw fas fa-signal"></i><span> 移动通信</span></a></li><li><a class="site-page child" href="/commBasic"><i class="fa-fw fas fa-wave-square"></i><span> 通信基础</span></a></li><li><a class="site-page child" href="/reading"><i class="fa-fw fas fa-book-open-reader"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/notes"><i class="fa-fw fas fa-note-sticky"></i><span> 杂谈</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener external nofollow noreferrer" href="https://travellings.link"><i class="fa-fw fas fa-subway"></i><span> 开往</span></a></div><div class="menus_item"><a class="site-page" href="/profile/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Stephen Zhang's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-bookmark"></i><span> 合辑</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/commMobile"><i class="fa-fw fas fa-signal"></i><span> 移动通信</span></a></li><li><a class="site-page child" href="/commBasic"><i class="fa-fw fas fa-wave-square"></i><span> 通信基础</span></a></li><li><a class="site-page child" href="/reading"><i class="fa-fw fas fa-book-open-reader"></i><span> 读书笔记</span></a></li><li><a class="site-page child" href="/notes"><i class="fa-fw fas fa-note-sticky"></i><span> 杂谈</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener external nofollow noreferrer" href="https://travellings.link"><i class="fa-fw fas fa-subway"></i><span> 开往</span></a></div><div class="menus_item"><a class="site-page" href="/profile/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">nvim-lsp-loader: 更灵活的language server配置解决方案</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-11T17:08:05.000Z" title="发表于 2022-07-12 01:08:05">2022-07-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-17T17:13:35.359Z" title="更新于 2022-07-18 01:13:35">2022-07-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/shorthands/">shorthands</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="nvim-lsp-loader: 更灵活的language server配置解决方案"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h3 id="Preface-4">Preface</h3>
+<p>本文是neovim插件，<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/zhang-stephen/nvim-lsp-loader">nvim-lsp-loader</a>的中文文档。</p>
+<p>该插件可以帮助你为不同的项目，从<code>.json</code>或者<code>.lua</code>文件中加载定制化的的language server配置。本质上说，它是对<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/neovim/nvim-lspconfig">nvim-lspconfig</a>和<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/williamboman/nvim-lsp-installer">nvim-lsp-installer</a>功能的抽象和封装。</p>
+<p>本来我也是将自己的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/zhang-stephen/dotfiles-on-unix-like/blob/57300d46b26089060868c9926a5a11a6e20f7f63/nvim/lua/modules/lsp/config/languages.lua">language server配置</a>写入到<code>~/.config/nvim</code>目录下。但这个文件过于巨大，不利于阅读和维护，也不利于定制化，我自己也曾尝试将其拆分为数个小文件，但是由于<code>packer.nvim</code>的<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/wbthomason/packer.nvim/pull/192">PR #192</a>尚且处于WIP状态，导致加载拆分后的配置时，出现<code>upvalues</code>错误，遂放弃此方案，并尝试构建了这个可以读取DSL的插件。</p>
+<p>插件开发的过程中受到<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/neoclide/coc.nvim">coc.nvim</a>和<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/tamago324/nlsp-settings.nvim">nlsp-settings.nvim</a>的启发，特此表示感谢！</p>
+<h3 id="功能概览">功能概览</h3>
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" id="cbx_0" checked="true" disabled="true"><label for="cbx_0"> 从用户指定的位置读取默认的language server配置，例如<code>~/.config/nvim/languages.json</code>；</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_1" checked="true" disabled="true"><label for="cbx_1"> 在项目根目录或者当前目录下寻找<code>.nvim/languages.json</code>，并加载其中的配置；</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_2" checked="true" disabled="true"><label for="cbx_2"> 支持对language server的高度定制化；</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_3" disabled="true"><label for="cbx_3"> 支持从<code>.lua</code>文件中加载server配置；</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_4" disabled="true"><label for="cbx_4"> 提供用户命令，支持从配置文件中加载特定配置；</label></li>
+<li class="task-list-item"><input type="checkbox" id="cbx_5" disabled="true"><label for="cbx_5"> 更多的想法仍在路上……</label></li>
+</ul>
+<h3 id="使用方法-2">使用方法</h3>
+<h4 id="安装和配置">安装和配置</h4>
+<p>我本人使用<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/wbthomason/packer.nvim">packer.nvim</a>管理neovim的插件和配置。但是该插件理论上也支持<a href="">paq.nvim</a>或者<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/junegunn/vim-plug">vim-plug</a>。</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- packer.nvim</span></span><br><span class="line">use <span class="string">&#x27;neovim/nvim-lspconfig&#x27;</span></span><br><span class="line">use <span class="string">&#x27;williamboman/nvim-lsp-installer&#x27;</span></span><br><span class="line">use <span class="string">&#x27;rcarriga/nvim-notify&#x27;</span> <span class="comment">-- 该依赖项是可选项</span></span><br><span class="line"></span><br><span class="line">use &#123;</span><br><span class="line">    <span class="string">&#x27;zhang-stephen/nvim-lsp-loader&#x27;</span></span><br><span class="line">    after = <span class="string">&#x27;nvim-lspconfig&#x27;</span>,</span><br><span class="line">    <span class="built_in">config</span> = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">        <span class="comment">-- 默认配置如下</span></span><br><span class="line">        <span class="built_in">require</span>(<span class="string">&#x27;nvim-lsp-loader&#x27;</span>).setup(&#123;</span><br><span class="line">            <span class="comment">---@type string | nil 默认配置文件的路径，可以为nil</span></span><br><span class="line">            default_config_path = <span class="string">&#x27;~/.config/nvim/languages.json&#x27;</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">---@type boolean 是否支持嵌套的json字段</span></span><br><span class="line">            nested_json_keys = <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">---@type table&lt;string&gt;检测项目根目录的范式</span></span><br><span class="line">            root_patterns = &#123; <span class="string">&#x27;.git/&#x27;</span> &#125;,</span><br><span class="line"></span><br><span class="line">            <span class="comment">---@type function | nil language server被附加到buffer时的回调函数，可以为nil</span></span><br><span class="line">            on_attach = <span class="literal">nil</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">---@type function | nil 用于自定义server能力的函数，可以为nil</span></span><br><span class="line">            make_capabilities = <span class="literal">nil</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">---@type function | nil 解析server配置的回调函数</span></span><br><span class="line">            <span class="comment">---@param name string language server的名字</span></span><br><span class="line">            <span class="comment">---@param config table language server的配置</span></span><br><span class="line">            server_config_cb = <span class="literal">nil</span>,</span><br><span class="line"></span><br><span class="line">            <span class="comment">---@type string 工作模式，必须为&#123;&#x27;user-first&#x27;, &#x27;user-only&#x27;, &#x27;default-first&#x27;, &#x27;default-only&#x27;&#125;其中之一</span></span><br><span class="line">            mode = <span class="string">&#x27;user-first&#x27;</span>,</span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此插件应该可以支持lazy-loading，但是我尚未测试过。</p>
+<h4 id="生成配置">生成配置</h4>
+<p>下面是一个用户定义的配置的示例。</p>
+<p><strong>注意：</strong> <code>.json</code>文件不支持注释，因此在实际配置中不要写注释。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;languages&quot;</span>: &#123;</span><br><span class="line">        <span class="comment">// language server服务的编程语言，无命名限制；</span></span><br><span class="line">        <span class="comment">// 不过如果对同一种语言配置了多个server的情况下（例如在默认配置和项目配置中），语言的命名应该是唯一的</span></span><br><span class="line">        <span class="string">&quot;lua&quot;</span>: &#123;</span><br><span class="line">            <span class="comment">// language server的名字，必须可被nvim-lsp-installer或者nvim-lspconfig接受</span></span><br><span class="line">            <span class="string">&quot;name&quot;</span>: <span class="string">&quot;sumneko_lua&quot;</span>,</span><br><span class="line">            <span class="string">&quot;managed_by&quot;</span>: &#123;</span><br><span class="line">                <span class="comment">// 指示该server是否被nvim-lsp-installer管理</span></span><br><span class="line">                <span class="comment">// 例如C++ server，ccls或者clangd，可以由包管理器安装，而不是nvim-lsp-installer</span></span><br><span class="line">                <span class="string">&quot;lsp_installer&quot;</span>: <span class="literal">true</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">// 该字段将在简单处理后被直接传递给nvim-lspconfig，可以为null</span></span><br><span class="line">            <span class="comment">// 面向nvim插件开发者的一个简单示例</span></span><br><span class="line">            <span class="comment">// 所有服务器的完整配置可以在以下链接中找到：</span></span><br><span class="line">            <span class="comment">// https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md</span></span><br><span class="line">            <span class="string">&quot;config&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">                    <span class="string">&quot;Lua&quot;</span>: &#123;</span><br><span class="line">                        <span class="string">&quot;diagnostics&quot;</span>: &#123;</span><br><span class="line">                            <span class="string">&quot;globals&quot;</span>: [</span><br><span class="line">                                <span class="string">&quot;vim&quot;</span>, <span class="string">&quot;packer_plugins&quot;</span></span><br><span class="line">                            ]</span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">&quot;workspace&quot;</span>: &#123;</span><br><span class="line">                            <span class="string">&quot;library&quot;</span>: [</span><br><span class="line">                                <span class="string">&quot;$VIMRUNTIME/lua&quot;</span>,</span><br><span class="line">                                <span class="string">&quot;$VIMRUNTIME/lua/vim/lsp&quot;</span></span><br><span class="line">                            ],</span><br><span class="line">                            <span class="string">&quot;maxPreload&quot;</span>: <span class="number">100000</span>,</span><br><span class="line">                            <span class="string">&quot;preloadFileSize&quot;</span>: <span class="number">10000</span></span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">&quot;telemtry&quot;</span>: &#123;</span><br><span class="line">                            <span class="string">&quot;enable&quot;</span>: <span class="literal">false</span></span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">&quot;completion&quot;</span>: &#123;</span><br><span class="line">                            <span class="string">&quot;keywordSnippet&quot;</span>: <span class="string">&quot;Disable&quot;</span>,</span><br><span class="line">                            <span class="string">&quot;callSnippet&quot;</span>: <span class="string">&quot;Disable&quot;</span></span><br><span class="line">                        &#125;,</span><br><span class="line">                        <span class="string">&quot;runtime&quot;</span>: &#123;</span><br><span class="line">                            <span class="string">&quot;version&quot;</span>: <span class="string">&quot;Lua 5.1&quot;</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="comment">// 该字段将会被lspconfig.util.pattern覆盖，可以为null</span></span><br><span class="line">                <span class="string">&quot;root_dir&quot;</span>: [</span><br><span class="line">                    <span class="string">&quot;.git/&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;stylua.toml&quot;</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="comment">// 该字段将会被解析和覆盖</span></span><br><span class="line">                <span class="string">&quot;cmd&quot;</span>: [</span><br><span class="line">                    <span class="comment">// 对于命令本身（列表中的第一个元素）：</span></span><br><span class="line">                    <span class="comment">// 相对路径会被附加到nvim-lsp-installer安装server的路径下；</span></span><br><span class="line">                    <span class="comment">// 绝对路径不会被修改；</span></span><br><span class="line">                    <span class="comment">// 如果该server不是由nvim-lsp-installer管理的，那么即使是相对路径也不会被解析</span></span><br><span class="line">                    <span class="string">&quot;sumneko_lua/extension/server/bin/lua-language-server&quot;</span></span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 其他的例子</span></span><br><span class="line">        <span class="string">&quot;json&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;name&quot;</span>: <span class="string">&quot;jsonls&quot;</span>,</span><br><span class="line">            <span class="comment">// 如果需要支持类似的嵌套字段，需要设置nested_json_keys = true</span></span><br><span class="line">            <span class="string">&quot;managed_by.lsp_installer&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">&quot;config&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;cmd&quot;</span>: [</span><br><span class="line">                    <span class="comment">// 将会被附加到server的安装目录，变成绝对路径</span></span><br><span class="line">                    <span class="string">&quot;jsonls/node_modules/.bin/vscode-json-language-server&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;--stdio&quot;</span></span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;c_cpp&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;name&quot;</span>: <span class="string">&quot;clangd&quot;</span>,</span><br><span class="line">            <span class="string">&quot;managed_by&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;lsp_installer&quot;</span>: <span class="literal">false</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">&quot;config&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;cmd&quot;</span>: [</span><br><span class="line">                    <span class="comment">// 该命令将被直接传递给nvim-lspconfig，因为该server不受nvim-lsp-installer管理</span></span><br><span class="line">                    <span class="comment">// 所以应该保证此命令可以在$PATH下被找到</span></span><br><span class="line">                    <span class="string">&quot;clangd&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;--log=error&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;--background-index&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;--clang-tidy&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;-j=12&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;--enable-config&quot;</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="string">&quot;root_dir&quot;</span>: [</span><br><span class="line">                    <span class="string">&quot;.git/&quot;</span>, <span class="string">&quot;.clangd&quot;</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="string">&quot;single_file_support&quot;</span>: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置是如何被加载的？">配置是如何被加载的？</h4>
+<p>执行<code>require('nvim-lsp-loader').setup()</code>时，该插件会尝试检测项目根目录，如果找不到符合<code>root_patterns</code>的目录，则以当前目录作为项目根目录；随后，它会试图读取默认配置文件，和项目根目录下的<code>.nvim/languages.json</code>文件，并根据<code>mode</code>决定如何加载它们：</p>
+<ul>
+<li>如果设置为<code>user-first</code>，那么项目根目录下的配置将会覆盖默认配置；若设置为<code>default-first</code>则反之；</li>
+<li>如果设置为<code>user-only</code>，那么只加载项目根目录下的配置；若设置为<code>default-only</code>则反之。</li>
+</ul>
+<p>然后所有的language server应该被自动配置好了。</p>
+<h3 id="代码贡献">代码贡献</h3>
+<p>该插件采用MIT许可协议，欢迎一切PR，issue或者新奇实用的点子！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://blogs.stephen-zhang.cn">stephen zhang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blogs.stephen-zhang.cn/post/7853fa04/">https://blogs.stephen-zhang.cn/post/7853fa04/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blogs.stephen-zhang.cn" target="_blank">Stephen Zhang's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/vim/">vim</a><a class="post-meta__tags" href="/tags/neovim/">neovim</a><a class="post-meta__tags" href="/tags/geek/">geek</a><a class="post-meta__tags" href="/tags/lsp/">lsp</a></div><div class="post_share"><div class="addtoany"><div class="a2a_kit a2a_kit_size_32 a2a_default_style"><a class="a2a_button_twitter"></a><a class="a2a_button_wechat"></a><a class="a2a_button_sina_weibo"></a><a class="a2a_button_email"></a><a class="a2a_button_copy_link"></a><a class="a2a_dd" target="_blank" rel="noopener external nofollow noreferrer" href="https://www.addtoany.com/share"></a></div></div><script async="async" src="https://static.addtoany.com/menu/page.js"></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://s2.loli.net/2022/04/17/dSevxc1pMP6CEnR.png" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2022/04/17/dSevxc1pMP6CEnR.png" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="https://s2.loli.net/2022/04/17/zilkjsBucpeWHZD.png" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2022/04/17/zilkjsBucpeWHZD.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/post/c0fd8110/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2022/05/09/GRsQ1eglFaqJ6MI.png" onerror="onerror=null;src='/images/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">杂谈：在云服务器上部署分布式的饥荒联机服务器</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/post/515df42a/" title="杂谈：我的现代化neovim配置"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2022/07/18/syjWe67oV1mBYDX.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-30</div><div class="title">杂谈：我的现代化neovim配置</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/avatar.jpeg" onerror="this.onerror=null;this.src='/images/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">stephen zhang</div><div class="author-info__description">Try not to become a man of success but rather try to become a man of value.</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/stark-zhang"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/stark-zhang" rel="external nofollow noreferrer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:yicheng123456@outlook.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://stackoverflow.com/users/15348537/stephen-zhang" rel="external nofollow noreferrer" target="_blank" title="StackOverflow"><i class="fab fa-stack-overflow"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！你可以通过下面的合辑目录快速找到需要的文章：
+<div>
+  <ul>
+    <li>
+      <a href="/commMobile/" target="_self" style="color:#49b1f5">移动通信</a>：理解LTE-A/NR协议
+    </li>
+    <li>
+      <a href="/commBasic/" target="_self" style="color:#49b1f5">通信基础</a>：重温通信基础教材
+    </li>
+    <li>
+      <a href="/reading/" target="_self" style="color:#49b1f5">读书笔记</a>：读薄技术书籍
+    </li>
+    <li>
+      <a href="/notes/" target="_self" style="color:#49b1f5">杂谈</a>：工具应用类笔记
+    </li>
+  </ul>
+</div>
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Preface-4"><span class="toc-number">1.</span> <span class="toc-text">Preface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E6%A6%82%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">功能概览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-2"><span class="toc-number">3.</span> <span class="toc-text">使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">安装和配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">生成配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%98%AF%E5%A6%82%E4%BD%95%E8%A2%AB%E5%8A%A0%E8%BD%BD%E7%9A%84%EF%BC%9F"><span class="toc-number">3.3.</span> <span class="toc-text">配置是如何被加载的？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%B4%A1%E7%8C%AE"><span class="toc-number">4.</span> <span class="toc-text">代码贡献</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/7853fa04/" title="nvim-lsp-loader: 更灵活的language server配置解决方案">nvim-lsp-loader: 更灵活的language server配置解决方案</a><time datetime="2022-07-11T17:08:05.000Z" title="发表于 2022-07-12 01:08:05">2022-07-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/c0fd8110/" title="杂谈：在云服务器上部署分布式的饥荒联机服务器"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2022/05/09/GRsQ1eglFaqJ6MI.png" onerror="this.onerror=null;this.src='/images/404.jpg'" alt="杂谈：在云服务器上部署分布式的饥荒联机服务器"/></a><div class="content"><a class="title" href="/post/c0fd8110/" title="杂谈：在云服务器上部署分布式的饥荒联机服务器">杂谈：在云服务器上部署分布式的饥荒联机服务器</a><time datetime="2022-05-08T16:43:37.000Z" title="发表于 2022-05-09 00:43:37">2022-05-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/4f968d98/" title="杂谈：为Github Pages添加CloudFlare CDN">杂谈：为Github Pages添加CloudFlare CDN</a><time datetime="2022-04-17T14:08:06.000Z" title="发表于 2022-04-17 22:08:06">2022-04-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/post/5a0ebd70/" title="南京大学《操作系统2022》（一）：为什么要学习操作系统？">南京大学《操作系统2022》（一）：为什么要学习操作系统？</a><time datetime="2022-03-28T15:48:47.000Z" title="发表于 2022-03-28 23:48:47">2022-03-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/515df42a/" title="杂谈：我的现代化neovim配置"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2022/07/18/syjWe67oV1mBYDX.jpg" onerror="this.onerror=null;this.src='/images/404.jpg'" alt="杂谈：我的现代化neovim配置"/></a><div class="content"><a class="title" href="/post/515df42a/" title="杂谈：我的现代化neovim配置">杂谈：我的现代化neovim配置</a><time datetime="2022-01-30T08:28:03.000Z" title="发表于 2022-01-30 16:28:03">2022-01-30</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://s2.loli.net/2022/04/17/LXdE9NKDcUbeGO8.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By stephen zhang</div><div class="footer_custom_text"><a target="_blank" rel="noopener external nofollow noreferrer" href="https://beian.miit.gov.cn/"><img class="icp-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/images/beian.png"><span>浙ICP备2020030924号-1</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/17.3.1/lazyload.iife.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function loadGiscus () {
+  let nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+
+  const config = Object.assign({
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'stark-zhang/blogs',
+    'data-repo-id': 'MDEwOlJlcG9zaXRvcnkzODg0NTQ5OTU=',
+    'data-category-id': 'DIC_kwDOFydaU84CPOs_',
+    'data-mapping': 'pathname',
+    'data-theme': nowTheme,
+    'data-reactions-enabled': '1',
+    crossorigin: 'anonymous',
+    async: true
+  },{"data-mapping":"title","data-input-position":"top","data-loading":"lazy","data-emit-metadata":0})
+
+  let ele = document.createElement('script')
+  for (let key in config) {
+    ele.setAttribute(key, config[key])
+  }
+  document.getElementById('giscus-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function changeGiscusTheme () {
+  const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+
+  sendMessage({
+    setConfig: {
+      theme: theme
+    }
+  });
+}
+
+if ('Giscus' === 'Giscus' || !false) {
+  if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+  else loadGiscus()
+} else {
+  function loadOtherComment () {
+    loadGiscus()
+  }
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://fastly.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
