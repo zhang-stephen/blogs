@@ -1945,9 +1945,9 @@ x^2 + 1 &amp;\text{if } x \ge 0 \\
       </tags>
   </entry>
   <entry>
-    <title>杂谈：如何使用443端口访问Github？</title>
+    <title>Git使用技巧（一）：如何使用443端口访问Github？</title>
     <url>/post/be6d85d4/</url>
-    <content><![CDATA[<h3 id="preface-2">preface</h3>
+    <content><![CDATA[<h3 id="preface">preface</h3>
 <p>在GitHub中配置过自己的SSH私钥后，就可以使用自己的公钥通过SSH协议进行<code>git pull</code>、<code>git push</code>等操作了。此时git所有的操作都是通过22端口收发的，在某些情况下，无法使用22端口时，应该怎么通过SSH访问Github？</p>
 <h3 id="使用443端口">使用443端口</h3>
 <p>一个可行的方案是使用443端口。443端口是HTTPS服务专用的端口，但也可以被SSH临时占用。在确定当前环境可以访问公网的情况下，可以使用如下命令测试443端口：</p>
@@ -5662,6 +5662,40 @@ c-16-25.333-24-45-24-59z'/></svg></span></span></span></span></span></span></spa
         <tag>linux</tag>
         <tag>lua</tag>
         <tag>don&#39;t starve together</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git使用技巧（二）：从远程仓库拉取特定commit</title>
+    <url>/post/89694042/</url>
+    <content><![CDATA[<h3 id="Preface">Preface</h3>
+<p>今天在工作中，需要将项目切回到一个较旧的版本上验证问题，但是此版本在远程仓库上既不是独立分支，也没有tag标记。如果使用<code>git reset --hard &lt;commit id&gt;</code>回退到旧版本，那么打断当前工作流不说，还需要较长的时间，因为还有submodule和LFS回退的问题。</p>
+<p>后来经过简单思考，想到了一个简单的，单独clone某个commit的方法，简单记录一下。</p>
+<h3 id="How-to">How to?</h3>
+<ol>
+<li>
+<p>新建一个空文件夹，并且初始化为git仓库，</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> repo2 &amp;&amp; <span class="built_in">cd</span> repo2</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>设置远端仓库地址，</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git remote add &lt;nick name&gt; &lt;url&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>使用<code>git fetch</code>取得对应的commit，</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git fetch &lt;nick name&gt; &lt;commit id&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>检出<code>FETCH_HEAD</code>即可。</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git checkout FETCH_HEAD -b &lt;new branch&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>当然，如果有对远端仓库操作的权限，那么完全可以将此commit打一个临时的tag，然后使用<code>git clone &lt;url&gt; -b &lt;tag&gt; --depth 1</code>即可达到目的。</p>
+]]></content>
+      <categories>
+        <category>shorthands</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
 </search>
