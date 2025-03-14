@@ -1,0 +1,33 @@
+highlight:
+  guessSyntax: false
+  noClasses: false
+goldmark:
+  renderer:
+    unsafe: true
+    hardWraps: true
+  parser:
+    attribute:
+      title: true
+      block: true
+  extensions:
+    extras:
+      delete:
+        enable: true
+      insert:
+        enable: true
+      mark:
+        enable: true
+      subscript:
+        enable: true
+      superscript:
+        enable: true
+    passthrough:
+      enable: true
+      delimiters:
+        block:
+          - [$$, $$]
+        inline:
+          - [$, $]
+tableOfContents:
+  startLevel: 2
+  endLevel: 4

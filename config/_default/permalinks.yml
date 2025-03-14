@@ -1,0 +1,2 @@
+page:
+  posts: '/:section/:slug/'

@@ -1,0 +1,54 @@
+page:
+  ruby: false
+  math:
+    enable: true
+    copyTex: true
+    mhchem: false
+  toc:
+    enable: true
+    auto: false
+    keepStatic: false
+  table:
+    sort: false
+  share:
+    enable: false
+  comment:
+    enable: false
+  code:
+    maxShownLines: 64
+author:
+  name: Stephen Zhang
+
+search:
+  enable: true
+  type: fuse
+
+image:
+  cacheRemote: true
+  optimise: true
+
+footer:
+  enable: true
+  since: 2021
+  license: '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+
+home:
+  rss: 10
+  profile:
+    enable: true
+    gravatarEmail: yicheng123456@outlook.com
+    subtitle: "Life is about Trade-off."
+    typeit: true
+    social: true
+  posts:
+    enable: true
+    paginate: 7
+
+social:
+  Github: zhang-stephen
+  Email: yicheng123456@outlook.com
+
+section:
+  paginate: 20
+  recentlyUpdated:
+    enable: true

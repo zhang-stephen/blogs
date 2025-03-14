@@ -1,0 +1,7 @@
+baseurl: http://localhost:1313/
+languageCode: "en-us"
+title: "Stephen Zhang's Blog"
+theme: DoIt
+hasCJKLanguage: true
+defaultContentLanguage: zh-cn
+timeZone: Asia/Shanghai
