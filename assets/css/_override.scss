@@ -1,0 +1,12 @@
+@import url('https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@latest/lxgwwenkaimono-regular/result.css');
+$global-font-family: LXGW WenKai Mono,
+    $global-font-family;
+
+@import url('https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/build/firacode-nerd-font.css');
+$code-font-family: FiraCode Nerd Font,
+    Source Code Pro,
+    Menlo,
+    Consolas,
+    Monaco,
+    monospace,
+    $global-font-family;

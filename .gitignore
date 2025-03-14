@@ -3,3 +3,6 @@
 /resources
 *.lock
 jsconfig.json
+
+# macOS related
+.DS_Store
