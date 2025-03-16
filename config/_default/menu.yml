@@ -14,3 +14,12 @@ main:
   - identifier: "profile"
     name: "关于"
     url: "/authors/stephen"
+    weight: 4
+  - identifier: "seperator"
+    pre: <span class='menu-item delimiter'></span>
+    weight: 5
+  - identifier: "travellings"
+    # name: 开往
+    pre: "<img src='https://www.travellings.cn/assets/logo.gif' alt='' style='display:inline-block; margin:auto;' width='120'/>"
+    url: "https://www.travellings.cn/go.html"
+    weight: 100

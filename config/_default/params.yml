@@ -31,6 +31,7 @@ footer:
   enable: true
   since: 2021
   license: '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+  hostedOn: '<a title="Github Pages" href="https://docs.github.com/en/pages/" target="_blank" rel="noopener noreffer">GitHub Pages</a>'
 
 home:
   rss: 10
