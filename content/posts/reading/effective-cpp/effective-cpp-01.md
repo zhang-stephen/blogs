@@ -1,6 +1,6 @@
 ---
 date: '2024-04-04T23:26:25+08:00'
-draft: true
+draft: false
 title: 'Effective C++ Part I: Accustoming Yourself to C++'
 slug: '3495545926'
 authors:
@@ -17,6 +17,7 @@ tags:
     - reading
 categories:
     - shorthands
+    - C++
 ---
 
 ## Preface

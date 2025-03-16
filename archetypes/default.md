@@ -1,9 +1,11 @@
 ---
 date: '{{ .Date }}'
-draft: true
+draft: false
 title: '{{ replace .File.ContentBaseName "-" " " | title }}'
 slug: '{{ now.UnixNano | hash.FNV32a }}'
-summary:
-tags:
-categories:
+authors: [Stephen]
+summary: ''
+tags: []
+categories: []
+series: []
 ---
