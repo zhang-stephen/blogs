@@ -11,13 +11,17 @@ main:
     name: "分类"
     url: "/categories/"
     weight: 3
+  - identifier: "series"
+    name: "系列"
+    url: "/series/"
+    weight: 4
   - identifier: "profile"
     name: "关于"
     url: "/authors/stephen"
-    weight: 4
+    weight: 30
   - identifier: "seperator"
     pre: <span class='menu-item delimiter'></span>
-    weight: 5
+    weight: 50
   - identifier: "travellings"
     # name: 开往
     pre: "<img src='https://www.travellings.cn/assets/logo.gif' alt='' style='display:inline-block; margin:auto;' width='120'/>"
