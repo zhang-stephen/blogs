@@ -94,7 +94,8 @@ clang++ -std=c++23 main.cpp -o main -fmodule-file=std=std.pcm -fprebuilt-module-
 
 通过[vscode-clangd](https://github.com/clangd/vscode-clangd)插件传递给`clangd`的命令行参数如下：
 
-```json {hl_lines=[6, 12]}
+```json {hl_lines=[7, 13]}
+{
     "clangd.arguments": [
         "-j=6",
         "--log=info",
