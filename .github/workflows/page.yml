@@ -31,7 +31,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Build with Hugo
-        run: hugo --logLevel info --minify -e production --enableGitInfo --baseURL=https://blogs.stephen-zhang.cn
+        run: hugo build -Ee production --gc --logLevel info --minify --enableGitInfo -b https://blogs.stephen-zhang.cn
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
