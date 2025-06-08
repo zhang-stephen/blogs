@@ -1,0 +1,18 @@
+{{- $destination := .Destination -}}
+{{- $url := urls.Parse $destination -}}
+
+<!-- if an URL satisfies: -->
+<!--    - it is a relative path -->
+<!--    - it is not a fragment, e.g. #anchor or something like -->
+<!-- then it is a reference to other post in this site, invoke urls.RelRef to get the true path after rendering -->
+{{- if and (not $url.IsAbs) (not $url.Fragment) -}}
+    {{- $destination = urls.RelRef .Page $url.Path -}}
+
+{{- else -}}
+    {{- with dict "Path" $destination "Resources" .Page.Resources | partial "function/resource.html" -}}
+        {{- $destination = .RelPermalink -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $options := dict "Destination" $destination "Title" .Title "Content" .Text -}}
+{{- partial "plugin/link.html" $options -}}
