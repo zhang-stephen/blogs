@@ -10,3 +10,13 @@ $code-font-family: FiraCode Nerd Font,
     Monaco,
     monospace,
     $global-font-family;
+
+// force the font color in <mark> to be black (#000000) when the default background color is yellow (#ffff00)
+// for more compatibility with dark mode
+mark {
+    color: black;
+
+    del {
+        color: black;
+    }
+}
