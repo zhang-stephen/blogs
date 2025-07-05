@@ -1,0 +1,45 @@
+// NOTE: override the default font style with italic
+// This style sheet is based on themes/DoIt/assets/css/themes/syntax-light.scss
+
+// supported italic for following semantic tokens:
+//  - Keyword and its variants
+//  - Comment and its variants (which is already italic by default in most themes)
+
+// support italic for keywords
+.chroma {
+
+    // Keyword
+    .k {
+        font-style: italic;
+    }
+
+    // KeywordConstant
+    .kc {
+        font-style: italic;
+    }
+
+    /* KeywordDeclaration */
+    .kd {
+        font-style: italic;
+    }
+
+    /* KeywordNamespace */
+    .kn {
+        font-style: italic;
+    }
+
+    /* KeywordPseudo */
+    .kp {
+        font-style: italic;
+    }
+
+    /* KeywordReserved */
+    .kr {
+        font-style: italic;
+    }
+
+    /* KeywordType */
+    .kt {
+        font-style: italic;
+    }
+}

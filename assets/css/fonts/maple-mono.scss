@@ -3,4 +3,13 @@
     src: url("https://fontsapi.zeoseven.com/443/main.woff2") format('woff2'),
         url("https://fontsapi-storage.zeoseven.com/443/main.woff2") format('woff2');
     font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Maple Mono";
+    src: url("https://fontsapi.zeoseven.com/443/italic.woff2") format('woff2'),
+        url("https://fontsapi-storage.zeoseven.com/443/italic.woff2") format('woff2');
+    font-display: swap;
+    font-style: italic;
 }
