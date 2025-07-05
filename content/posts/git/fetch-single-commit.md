@@ -2,7 +2,7 @@
 date: '2022-07-22T23:44:03'
 draft: false
 title: 'Git使用技巧（一）：从远程仓库拉取特定commit'
-slug: '3785641246'
+slug: 'e1a44d1e'
 authors: [Stephen]
 summary: 如题
 tags:

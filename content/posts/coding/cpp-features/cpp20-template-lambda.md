@@ -2,7 +2,7 @@
 date: '2024-04-24T00:45:24+08:00'
 draft: false
 title: 'C++20：泛型lambda表达式'
-slug: '3138660199'
+slug: 'bb142767'
 authors:
     - Stephen
 summary: '泛型lambda表达式，用起来有点小纠结……'

@@ -2,7 +2,7 @@
 date: '2022-05-09T00:43:37'
 draft: false
 title: 杂谈：在云服务器上部署分布式的饥荒联机服务器
-slug: '1434336213'
+slug: '557e3bd5'
 authors: [Stephen]
 summary: 适用于饥荒联机版的“分布式”服务器搭建
 tags:

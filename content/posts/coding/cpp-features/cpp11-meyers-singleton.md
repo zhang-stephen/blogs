@@ -2,7 +2,7 @@
 date: '2023-12-01T09:36:00'
 draft: true
 title: 使用Meyers' Singleton的一些思考
-slug: '505375857'
+slug: '1e1f6c71'
 authors: [Stephen]
 summary: Meyers' Singleton
 tags:

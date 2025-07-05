@@ -2,7 +2,7 @@
 date: '2024-12-13T01:34:07+08:00'
 draft: false
 title: 'C++23：标准库模块(一)'
-slug: '2558094829'
+slug: '98796ded'
 authors:
     - Stephen
 summary: '初见STL modules'

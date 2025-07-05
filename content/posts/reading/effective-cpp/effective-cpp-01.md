@@ -2,7 +2,7 @@
 date: '2024-04-04T23:26:25+08:00'
 draft: false
 title: 'Effective C++ Part I: Accustoming Yourself to C++'
-slug: '3495545926'
+slug: 'd059cc46'
 authors:
     - Stephen
 summary: '《Effective C++》迟到的读书笔记～'

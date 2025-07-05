@@ -2,7 +2,7 @@
 date: 2023-04-03T00:21:01
 draft: false
 title: 为ZeroTier搭建私有Planet Server
-slug: '1027185260'
+slug: '3d399a6c'
 authors: [Stephen]
 summary: '为ZeroTier网络搭建真正私有的Planet Server'
 tags:

@@ -2,7 +2,7 @@
 date: '2021-08-31T15:17:32'
 draft: false
 title: NR协议读书笔记（三）：Phase-Tracking Reference Signal
-slug: '3167340077'
+slug: 'bcc9c62d'
 authors: [Stephen]
 summary: 'PT-RS的生成和映射'
 tags:
@@ -109,7 +109,7 @@ $$
     $$
     k^{RB}_{ref} = n_{RNTI} \bmod (n_{RB} \bmod K_{PT-RS})  = 1 \tag{5}
     $$
-    
+
     即PT-RS从给定的BWP中的第二个PRB中出现；
 
 2. 由$(3)$可以知道，PT-RS每$K_{PT-RS}$个PRB中出现一次，即其所占用的PRB应为$\{1, 5, 9\}$；又因为$k^{RE}_{ref} = 7$，可以计算出$k \in \{ 19, 67, 115 \}$。

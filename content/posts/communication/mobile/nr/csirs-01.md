@@ -2,7 +2,7 @@
 date: '2021-08-05T23:53:57'
 draft: false
 title: 'NR协议读书笔记（二）：Channel-State Information Reference Signal'
-slug: '3476565587'
+slug: 'cf382e53'
 authors: [Stephen]
 summary: CSI-RS的生成与映射过程
 tags:

@@ -2,7 +2,7 @@
 date: '2025-03-02T13:09:16Z'
 draft: false
 title: Markdown语法测试 - Hugo Goldmark
-slug: '1432755858'
+slug: '55661e92'
 summary: "测试一下goldmark对markdown语法的覆盖程度"
 authors:
     - Stephen

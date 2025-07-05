@@ -2,7 +2,7 @@
 date: '2021-07-30T19:31:25'
 draft: false
 title: NR协议读书笔记（一）：初见
-slug: '2215147109'
+slug: '84087665'
 authors: [Stephen]
 summary: 初识NR物理层
 tags:
