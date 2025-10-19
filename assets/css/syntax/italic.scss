@@ -3,7 +3,9 @@
 
 // supported italic for following semantic tokens:
 //  - Keyword and its variants
-//  - Comment and its variants (which is already italic by default in most themes)
+//  - Comment and its variants
+//      - supported in light mode already
+//      - not supported in dark mode in default, added here for consistency
 
 // support italic for keywords
 .chroma {
@@ -40,6 +42,46 @@
 
     /* KeywordType */
     .kt {
+        font-style: italic;
+    }
+
+    /* Comment */
+    .c {
+        font-style: italic;
+    }
+
+    /* CommentHashbang */
+    .ch {
+
+        font-style: italic;
+    }
+
+    /* CommentMultiline */
+    .cm {
+
+        font-style: italic;
+    }
+
+    /* CommentSingle */
+    .c1 {
+
+        font-style: italic;
+    }
+
+    /* CommentSpecial */
+    .cs {
+
+        font-style: italic;
+    }
+
+    /* CommentPreproc */
+    .cp {
+
+        font-style: italic;
+    }
+
+    /* CommentPreprocFile */
+    .cpf {
         font-style: italic;
     }
 }
