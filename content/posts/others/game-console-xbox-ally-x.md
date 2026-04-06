@@ -27,7 +27,7 @@ series: []
 - RAM: 24GB LPDDR5
 - SSD: 1TB NVMe 2.0, @2280
 
-其中，24GB内存最多可以划分出16GB作为GPU VRAM，配合1080p的内置显示器，在某些3A游戏上确实也能一战。手柄部分采用了经典的Xbox布局，而且配置了西瓜键（Xbox按键）。不过在Windows 11系统下，该按键似乎被强制劫持为Xbox Game Bar的快捷方式，无法用于Steam Big Picture的全局菜单。
+其中，24GB内存最多可以划分出16GB作为GPU VRAM，配合1080p的内置显示器，在某些3A游戏上确实也能一战。手柄部分采用了经典的Xbox布局，而且配置了西瓜键（Xbox按键），在体积和重量（~600g）都比较大的情况下，还是保持了很好的手感。不过在Windows 11系统下，该按键似乎被强制劫持为Xbox Game Bar的快捷方式，无法用于Steam Big Picture的全局菜单。
 
 除此之外，根据部分性能测评，Windows 11的性能表现不如Steam OS及其衍生版本。基于种种考虑，最后笔者决定放弃Windows系统，转而安装Bazzite。为什么没有选择官方的Steam OS？主要是Steam OS目前主要为Steam Deck设计，对其他硬件的兼容性可能不够好，而Bazzite集成了众多工具，可以开箱即用。
 
@@ -102,11 +102,11 @@ P.S. Fedora默认的`dnf`包管理器镜像源可以自由选择。
 
 {{< bilibili BV1W3UVBAEkf >}}
 
-在Bazzite系统内，可以使用命令`just toggle-global-fsr4-rdna3`开启FSR4支持，但是仅限于Proton GE、Proton EM等第三方兼容层。
+在Bazzite系统内，可以使用命令`ujust toggle-global-fsr4-rdna3`开启FSR4支持，但是仅限于Proton GE、Proton EM等第三方兼容层。
 
 ### Steam Decky Loader
 
-使用`ujust setup-decky`命令即可。在安装完毕之后，记得打开Decky Loader的实验性设置，以获取最新的插件。
+使用`ujust setup-decky`命令即可。
 
 ### 其他
 

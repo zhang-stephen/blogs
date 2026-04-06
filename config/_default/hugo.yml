@@ -5,3 +5,4 @@ theme: DoIt
 hasCJKLanguage: true
 defaultContentLanguage: zh-cn
 timeZone: Asia/Shanghai
+enableEmoji: true
