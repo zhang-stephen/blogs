@@ -1,0 +1,113 @@
+// ==============================
+// Custom style
+// 自定义样式
+// ==============================
+
+// ------------------------------
+// 竖屏模式：可折叠浮动目录
+// 当屏幕为竖屏（高度 > 宽度）且非移动端时，
+// 将右侧固定目录改为浮动抽屉形式
+// ------------------------------
+@media screen and (orientation: portrait) and (min-width: 681px) {
+  /* 隐藏右侧固定目录 */
+  #toc-auto {
+    display: none !important;
+  }
+
+  /* 调整文章宽度：75%，在竖屏下更舒适的阅读宽度 */
+  .page {
+    width: 75% !important;
+    max-width: 900px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* 目录抽屉样式：浮动卡片式 */
+  #toc-dialog {
+    /* 限制宽度，与原有TOC相仿 */
+    --toc-dialog-width: 320px;
+    width: var(--toc-dialog-width) !important;
+    max-width: var(--toc-dialog-width) !important;
+    height: auto !important;
+    max-height: 40vh !important;
+
+    /* 浮动定位：右下角，不遮挡内容 */
+    position: fixed !important;
+    right: 1rem !important;
+    bottom: 5rem !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 !important;
+
+    /* 卡片样式 */
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+    overflow: hidden !important;
+
+    /* 内部布局 */
+    .toc {
+      max-height: 40vh;
+      overflow-y: auto;
+      padding-bottom: 1rem;
+      /* 移除输入光标 */
+      cursor: default;
+      user-select: none;
+    }
+
+    /* 链接使用指针光标 */
+    .toc a {
+      cursor: pointer;
+    }
+
+    /* 隐藏 dialog 的 backdrop，使其不遮挡内容 */
+    &::backdrop {
+      background: transparent !important;
+    }
+
+    /* 调整 dialog 动画：从右下角淡入 */
+    transition:
+      opacity 0.2s ease-out,
+      transform 0.2s ease-out !important;
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    translate: 0 0 !important;
+
+    &[open] {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      transition:
+        opacity 0.2s ease-out,
+        transform 0.2s ease-out !important;
+    }
+
+    @starting-style {
+      &[open] {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+      }
+    }
+  }
+
+  /* 暗色模式下的阴影 */
+  .dark #toc-dialog {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* 关闭 dialog 的滚动锁定，允许背景滚动 */
+  html:has(#toc-dialog[open]) {
+    overflow: auto !important;
+  }
+}
+
+/* 目录抽屉按钮：竖屏或窄屏时显示 */
+@media screen and (orientation: portrait) and (min-width: 681px),
+       screen and (max-width: 767px) {
+  #toc-drawer-button {
+    display: block !important;
+  }
+}
+
+/* 默认隐藏目录按钮（横屏宽屏时） */
+#toc-drawer-button {
+  display: none;
+}
