@@ -106,6 +106,25 @@ git commit -m "[chore] update DoIt theme to latest version"
 
 构建后的站点输出到 `public/` 目录，可直接部署到任意静态托管服务。
 
+## Git 提交规范
+
+提交信息使用以下前缀：
+
+| 前缀 | 用途 | 示例 |
+|------|------|------|
+| `[feat]` | 新功能 | `[feat] add dark mode toggle` |
+| `[fix]` | 修复 bug | `[fix] remove nested scrollbar in TOC dialog` |
+| `[style]` | 样式/视觉调整 | `[style] refactor TOC styles and add custom scrollbar` |
+| `[doc]` | 文档/文章 | `[doc] add C++26 optional reference post` |
+| `[chore]` | 杂项/维护 | `[chore] update DoIt theme to latest version` |
+| `[refactor]` | 代码重构（功能不变） | `[refactor] simplify CSS selectors` |
+| `[test]` | 测试相关 | `[test] add visual regression for TOC` |
+
+**规范**：
+- 使用英文小写描述
+- 简明扼要，描述改动内容而非改动方式
+- 动词使用现在时（add/fix/remove/update）
+
 ## 注意事项
 
 - 文章默认使用 Markdown 格式
