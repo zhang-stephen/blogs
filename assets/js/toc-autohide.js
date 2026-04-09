@@ -43,13 +43,12 @@
         });
     });
 
-    // 分辨率变化时（竖屏变横屏）自动隐藏
+    // 竖屏变横屏时自动关闭 TOC（此时侧边 TOC 会出现）
     const mediaQuery = window.matchMedia('(orientation: landscape) and (min-width: 681px)');
-    function handleOrientationChange(e) {
+    mediaQuery.addEventListener('change', (e) => {
         if (e.matches && tocDialog.open) {
             tocDialog.close();
             cancelAutoHide();
         }
-    }
-    mediaQuery.addEventListener('change', handleOrientationChange);
+    });
 })();
