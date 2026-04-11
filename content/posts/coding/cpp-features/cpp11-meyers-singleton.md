@@ -1,7 +1,7 @@
 ---
 date: '2023-12-01T09:36:00'
-draft: true
-title: 使用Meyers Singleton的一些思考
+draft: false
+title: C++11：使用Meyers Singleton的一些思考
 slug: '1e1f6c71'
 authors: [Stephen]
 summary: Meyers Singleton
@@ -12,9 +12,10 @@ categories:
     - C++
 series:
     - C++ Features
+series_weight: 1101
 ---
 
-# 关于C++中Meyers Singleton的若干思考
+## 关于C++中Meyers Singleton的若干思考
 
 最近在工作中看到了一个单例类的使用，该部分代码大致如下：
 
@@ -95,8 +96,6 @@ int main() {
 - 或者，提供 `reload()` / `update()` 机制，在条件改变时重新初始化单例的内部状态。
 - 更根本的设计：**单例对象应当是“无状态”或“状态不可变”的**，避免依赖外部可变全局条件。
 
----
-
 ## Q2：C++ Core Guidelines I.3 为什么要求避免使用单例？
 
 **原文**：[I.3: Avoid singletons](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#i3-avoid-singletons)
@@ -124,8 +123,6 @@ int main() {
 
 **笔者的观点**：存在即合理，单例并非洪水猛兽。在 **确实需要全局唯一且不可替换的资源**（如日志系统、硬件寄存器映射、进程级配置）且 **不会成为测试瓶颈** 的少数场景下，可以谨慎使用。但团队应当建立明确规则，禁止滥用；且类型`T`最好能提供`reset()`等恢复初始状态的方法。
 
----
-
 ## Q3：单例模式到底解决了什么问题？
 
 单例模式的核心意图是 **确保一个类只有一个实例**，并 **提供一个全局访问点**。它解决了以下实际问题：
@@ -146,8 +143,6 @@ int main() {
    严格来说，单例是“限制为 1 个”，但模式可扩展为“限制为 N 个”（如对象池）。
 
 **与全局变量的区别**：全局变量（`extern` 或静态成员）也能提供全局访问，但无法 **阻止** 创建第二个实例（如通过 `new` 或拷贝构造）。单例模式通过私有构造函数、删除拷贝操作等语言机制，**强制执行唯一性**。同时，单例通常使用 **延迟初始化**（首次使用时构造），避免全局变量的静态初始化顺序问题（虽然 Meyers Singleton 解决了该问题）。
-
----
 
 ## Q4：Meyers Singleton with CRTP 的改进空间
 
@@ -193,8 +188,6 @@ protected:
     // ...
 };
 ```
-
----
 
 ## 总结
 
