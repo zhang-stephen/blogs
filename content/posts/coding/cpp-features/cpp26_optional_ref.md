@@ -19,7 +19,7 @@ series_weight: 2601
 
 ## Preface
 
-春节前写业务代码（C\++20）时，我遇到了一个很常见的需求：写一个查找函数，查找某个大对象。如果找到就返回对象的引用，找不到就表示“没有”。直觉告诉我 `std::optional<T&>` 是最自然的写法——清晰表达“可能有引用，也可能没有”。结果编译器直接报错，查了文档才想起来：C\++17 引入的 `std::optional` 不支持存放引用类型。最后只能使用返回指针的方法交差。
+春节前写业务代码（C\++20）时，我遇到了一个很常见的需求：写一个查找函数，查找某个大对象。如果找到就返回对象的引用，找不到就表示“没有”。直觉告诉我 `std::optional<T&>` 是最自然的写法——清晰表达“可能有引用，也可能没有”。结果编译器直接报错，查了文档才想起来：C\++17 引入的 `std::optional` 不支持存放引用类型。最后只能使用返回裸指针的方法交差。
 
 要想让 `optional` 持有引用，只能用 `std::optional<std::reference_wrapper<T>>`，代码一下子变得啰嗦且晦涩。这个“洞”在标准库里存在了近十年，直到 C\++26 才被正式补上。为什么一个看起来顺理成章的功能等了这么久？这背后其实有一段挺有意思的设计争议。
 
@@ -38,11 +38,11 @@ ref = y;                     // 应该做什么？
 
 委员会内部主要有三种看法：
 
-- **Rebind（重新绑定）**：让 ref 放弃对 x 的引用，改为绑定到 y。这种语义更贴近 optional 作为“值容器”的本意，也是 [P2988R0](https://wg21.link/p2988r0) 最终采纳的方案。
+- **Rebind（重新绑定）**： ref 放弃对 x 的引用，改为绑定到 y。这种语义更贴近 optional 作为“值容器”的本意，也是 [P2988R0](https://wg21.link/p2988r0) 最终采纳的方案。
 - **Assign‑through（穿透赋值）**：保持引用绑定不变，但把 y 的值拷贝到 x。这更贴近普通引用的行为。
 - **禁止赋值**：既然 T& 本身不可重新绑定，那就干脆禁用赋值操作。
 
-三种方案各有道理，但谁也说服不了谁。提案作者在 2013 年的 Revision 3 中决定“弃车保帅”，把 std::optional<T&> 剥离出去，优先让 std::optional<T> 进入 C++17。原话是：委员会可以选择只接受值版本，如果觉得引用版本不可接受的话。
+三种方案各有道理，竞争激烈。提案作者在 2013 年的 Revision 3 中决定“弃车保帅”，把 `std::optional<T&>` 剥离出去，优先让  `std::optional<T>` 进入 C++17。原话是：委员会可以选择只接受值版本，如果觉得引用版本不可接受的话。
 
 此后，多个提案试图推动引用支持。[P1175R0](https://wg21.link/p1175r0) 在 2018 年为 C+\+20 重新提议了引用特化，但未被采纳。[P1683R0](https://wg21.link/p1683r0)对现存的各种 optional 引用实现做了一次全面调查，指出了赋值行为在不同状态下可能产生的不一致陷阱。直到 2023 年，Steve Downey 和 Peter Sommerlad 提出的 [P2988R0](https://wg21.link/p2988r0) 才真正在设计层面达成共识，被 Library Evolution Working Group 批准进入 C+\+26。
 
@@ -86,9 +86,54 @@ C++26 正式接纳了 `std::optional<T&>`。它的核心特性如下：
 ## `reference_wrapper` 与 `optional<T&>` 怎么选？
 在 C++26 之前，如果需要“可存放、可重新绑定的引用”，唯一的标准方案是 std::reference_wrapper<T>。它和新的 optional<T&> 有重叠，但定位不同。
 
+## `optional<T&>` 的内部实现
+
+既然 `optional<T&>` 已经正式加入标准，我们不妨看看它内部是如何实现的——**它存储的是 `T*` 指针，而非 `reference_wrapper<T>`**。
+
+根据标准提案 [P2988R0](https://wg21.link/p2988r0) 及主流标准库实现（libc++、libstdc++），`optional<T&>` 的特化大致如下：
+
+```cpp
+template <class T>
+class optional<T&> {
+    T* __ptr_;  // 内部存储指针，nullptr 表示空状态
+
+public:
+    // 构造
+    constexpr optional() noexcept : __ptr_(nullptr) {}
+    constexpr optional(nullopt_t) noexcept : __ptr_(nullptr) {}
+    constexpr optional(T& __v) noexcept : __ptr_(std::addressof(__v)) {}
+
+    // Rebind 赋值语义
+    constexpr optional& operator=(T& __v) noexcept {
+        __ptr_ = std::addressof(__v);  // 重新绑定到新对象
+        return *this;
+    }
+
+    // 解引用
+    constexpr T& operator*() const noexcept { return *__ptr_; }
+    constexpr T* operator->() const noexcept { return __ptr_; }
+    // ...
+};
+```
+
+### 为什么不用 `reference_wrapper<T>`？
+
+你可能会问：既然 `reference_wrapper` 已经能给引用提供”值语义”，为什么不直接用它？
+
+关键在于**空状态**：
+
+| 特性 | `reference_wrapper<T>` | `optional<T&>` 的需求 |
+|------|------------------------|----------------------|
+| 空状态 | ❌ 默认构造被删除，必须有引用 | ✅ 需要显式空状态（`nullopt`） |
+| 与 `optional` 互操作 | ❌ 不支持 `nullopt` | ✅ 必须支持 `nullopt` |
+
+`reference_wrapper` 必须在构造时绑定到有效对象，无法表达”没有引用”。而 `optional` 的核心语义就是”可能有值，也可能没有”，所以底层必须用指针实现，用 `nullptr` 表示空状态。
+
+这也解释了为什么 `make_optional<T&>` 被禁用：如果用 `make_optional`，会涉及模板推导和临时对象的陷阱，而直接使用构造函数 `optional<T&>(obj)` 清晰且安全。
+
 ## 四种**引用**方式的对比与选择
 
-在 C++ 中表达“引用”概念的方式有好几种：普通引用 `T&`、原始指针 `T*`、`std::reference_wrapper<T>`，以及 C++26 新增的 `std::optional<T&>`。它们各有适用场景，理解其区别有助于写出更清晰、更安全的代码。
+理解了 `optional<T&>` 的内部实现后，我们来看看 C++ 中表达”引用”概念的几种方式：普通引用 `T&`、原始指针 `T*`、`std::reference_wrapper<T>`，以及 C++26 新增的 `std::optional<T&>`。它们各有适用场景，理解其区别有助于写出更清晰、更安全的代码。
 
 ### 横向对比
 
